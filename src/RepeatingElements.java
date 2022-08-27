@@ -58,7 +58,7 @@ public class RepeatingElements {
 
         if (Collections.max(allValue) == NormalizeMidFrequencies)
         {
-            GetItems_Equals_MidFrequencies(allValue.get(allValue.size()-1));
+            GetItems_Equals_MidFrequencies(allValue.get(allValue.size()-2));
             return;
 
         } else if (Collections.min(allValue) == NormalizeMidFrequencies) {

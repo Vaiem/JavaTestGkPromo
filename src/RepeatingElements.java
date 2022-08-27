@@ -36,30 +36,32 @@ public class RepeatingElements {
         int Max_res = (int)Math.round(midFrequencies);
 
         System.out.println("ALLFrequencies: " + ALLFrequencies);
-        System.out.println("mid frequencies: " + Max_res);
+        System.out.println("mid frequencies: " + midFrequencies);
 
         GetAllItems();
 
-        Contain_Mid_Frequencies_Items(Max_res);
+        Contain_Mid_Frequencies_Items(midFrequencies);
     }
 
-    public static void Contain_Mid_Frequencies_Items(int midFrequencies)
+    public static void Contain_Mid_Frequencies_Items(double midFrequencies)
     {
-        if(allItems.containsValue(midFrequencies)) {
-            GetItems_Equals_MidFrequencies(midFrequencies);
+        int NormalizeMidFrequencies = (int)Math.round(midFrequencies);
+
+        if(allItems.containsValue(NormalizeMidFrequencies)) {
+            GetItems_Equals_MidFrequencies(NormalizeMidFrequencies);
             return;
         }
 
         List<Integer> allValue = new ArrayList<>(allItems.values());
-        allValue.add(midFrequencies);
+        allValue.add(NormalizeMidFrequencies);
         allValue = allValue.stream().sorted().collect(Collectors.toList());
 
-        if (Collections.max(allValue) == midFrequencies)
+        if (Collections.max(allValue) == NormalizeMidFrequencies)
         {
             GetItems_Equals_MidFrequencies(allValue.get(allValue.size()-1));
             return;
 
-        } else if (Collections.min(allValue) == midFrequencies) {
+        } else if (Collections.min(allValue) == NormalizeMidFrequencies) {
 
             GetItems_Equals_MidFrequencies(allValue.get(1));
             return;
@@ -69,10 +71,10 @@ public class RepeatingElements {
 
         for (int i = 0; i < allValue.size(); i++)
         {
-            if (allValue.get(i) == midFrequencies)
+            if (allValue.get(i) == NormalizeMidFrequencies)
             {
-                int differenceNextItem = allValue.get(i+1) - allValue.get(i);
-                int differencePreviosItem = allValue.get(i) - allValue.get(i-1);
+                double differenceNextItem = allValue.get(i+1) - midFrequencies;
+                double differencePreviosItem = midFrequencies - allValue.get(i-1);
 
                 if(differenceNextItem == differencePreviosItem)
                 {

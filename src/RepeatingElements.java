@@ -43,13 +43,13 @@ public class RepeatingElements {
         Contain_Mid_Frequencies_Items(midFrequencies);
     }
 
-    public static void Contain_Mid_Frequencies_Items(double midFrequencies)
+    public static int Contain_Mid_Frequencies_Items(double midFrequencies)
     {
         int NormalizeMidFrequencies = (int)Math.round(midFrequencies);
 
         if(allItems.containsValue(NormalizeMidFrequencies)) {
             GetItems_Equals_MidFrequencies(NormalizeMidFrequencies);
-            return;
+            return 0;
         }
 
         List<Integer> allValue = new ArrayList<>(allItems.values());
@@ -59,43 +59,77 @@ public class RepeatingElements {
         if (Collections.max(allValue) == NormalizeMidFrequencies)
         {
             GetItems_Equals_MidFrequencies(allValue.get(allValue.size()-2));
-            return;
+            return 0;
 
         } else if (Collections.min(allValue) == NormalizeMidFrequencies) {
 
             GetItems_Equals_MidFrequencies(allValue.get(1));
-            return;
+            return 0;
 
         }
 
-
-        for (int i = 0; i < allValue.size(); i++)
+        int getIndex = BinarySearchIndex(NormalizeMidFrequencies,allValue);
+        if (getIndex != -1)
         {
-            if (allValue.get(i) == NormalizeMidFrequencies)
+            if (allValue.get(getIndex) == NormalizeMidFrequencies)
             {
-                double differenceNextItem = allValue.get(i+1) - midFrequencies;
-                double differencePreviosItem = midFrequencies - allValue.get(i-1);
+                double differenceNextItem = allValue.get(getIndex+1) - midFrequencies;
+                double differencePreviosItem = midFrequencies - allValue.get(getIndex-1);
 
                 if(differenceNextItem == differencePreviosItem)
                 {
 
-                    GetItems_Equals_MidFrequencies(allValue.get(i+1));
-                    GetItems_Equals_MidFrequencies(allValue.get(i-1));
-                    return;
+                    GetItems_Equals_MidFrequencies(allValue.get(getIndex+1));
+                    GetItems_Equals_MidFrequencies(allValue.get(getIndex-1));
+                    return 0;
 
                 } else if (differenceNextItem > differencePreviosItem) {
 
-                    GetItems_Equals_MidFrequencies(allValue.get(i-1));
-                    return;
+                    GetItems_Equals_MidFrequencies(allValue.get(getIndex-1));
+                    return 0;
                 } else {
 
-                    GetItems_Equals_MidFrequencies(allValue.get(i+1));
-                    return;
+                    GetItems_Equals_MidFrequencies(allValue.get(getIndex+1));
+                    return 0;
                 }
 
             }
         }
+        return -1;
 
+    }
+
+    public static int BinarySearchIndex(int SercheItem, List<Integer> SortedCollection)
+    {
+
+        int fromIndex = 0;
+        int toIndex = SortedCollection.size() - 1;
+
+
+        while (fromIndex <= toIndex)
+        {
+            int mid = (toIndex + fromIndex)/2;
+            if (fromIndex == toIndex)
+            {
+                return  fromIndex;
+            }
+
+            if (SortedCollection.get(mid)==SercheItem)
+            {
+                return  mid;
+
+            } else if (SortedCollection.get(mid) < SercheItem) {
+
+                fromIndex = mid + 1;
+                toIndex = SortedCollection.size() -1;
+
+            } else {
+                fromIndex = fromIndex;
+                toIndex = mid;
+            }
+
+        }
+        return -1;
 
     }
 
